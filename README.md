@@ -1,6 +1,6 @@
-# Python LLM Tokenizer
+# CodeSage
 
-A simple and efficient tokenizer implementation for Large Language Models (LLMs) in Python. This project provides a flexible tokenization system that supports both word-level and subword tokenization, with a focus on performance and ease of use.
+CodeSage is a light-weight LLM designed specifically for code understanding and generation tasks. It features a compact architecture with 19 million parameters.
 
 ## Features
 
