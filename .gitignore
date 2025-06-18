@@ -80,5 +80,8 @@ new_tokenizer.json
 # VSCode
 .vscode/
 
+# Cursor rules
+.cursor/rules/
+
 # Other
 *.log 
