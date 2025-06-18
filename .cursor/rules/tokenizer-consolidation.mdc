@@ -1,0 +1,157 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Tokenizer Consolidation and Standardization
+
+## Current Issues
+
+### Multiple Tokenizer Implementations
+The codebase has three different tokenizer implementations with overlapping functionality:
+- [src/tokenizer.py](mdc:src/tokenizer.py) - Base Tokenizer and WordPieceTokenizer
+- [src/bpe_tokenizer.py](mdc:src/bpe_tokenizer.py) - BPETokenizer
+- [src/train_tokenizer.py](mdc:src/train_tokenizer.py) - Training utilities
+
+### Inconsistent Special Tokens
+Different tokenizer classes use different special token conventions:
+- `Tokenizer`: `[PAD]`, `[UNK]`, `[BOS]`, `[EOS]`
+- `BPETokenizer`: `<pad>`, `<unk>`, `<s>`, `</s>`
+
+### Incomplete Implementation
+The [WordPieceTokenizer.train()](mdc:src/tokenizer.py) method raises `NotImplementedError`.
+
+## Consolidation Plan
+
+### 1. Unified Tokenizer Hierarchy
+
+Create a clean inheritance hierarchy:
+```
+BaseTokenizer (abstract)
+├── WordTokenizer (word-level)
+├── SubwordTokenizer (abstract)
+│   ├── WordPieceTokenizer
+│   └── BPETokenizer
+└── SentencePieceTokenizer (future)
+```
+
+### 2. Standardized Special Tokens
+
+Use consistent special token format across all implementations:
+```python
+SPECIAL_TOKENS = {
+    "pad": "[PAD]",
+    "unk": "[UNK]", 
+    "bos": "[BOS]",
+    "eos": "[EOS]",
+    "mask": "[MASK]",
+    "sep": "[SEP]",
+    "cls": "[CLS]"
+}
+```
+
+### 3. Common Interface
+
+All tokenizers should implement this interface:
+```python
+class BaseTokenizer(ABC):
+    @abstractmethod
+    def encode(self, text: str) -> List[str]:
+        """Convert text to tokens."""
+        pass
+    
+    @abstractmethod
+    def encode_ids(self, text: str) -> List[int]:
+        """Convert text to token IDs."""
+        pass
+    
+    @abstractmethod
+    def decode(self, tokens: Union[List[str], List[int]]) -> str:
+        """Convert tokens back to text."""
+        pass
+    
+    @abstractmethod
+    def train(self, texts: List[str], **kwargs) -> None:
+        """Train the tokenizer on text corpus."""
+        pass
+    
+    def save(self, path: str) -> None:
+        """Save tokenizer to file."""
+        pass
+    
+    @classmethod
+    def load(cls, path: str) -> 'BaseTokenizer':
+        """Load tokenizer from file."""
+        pass
+```
+
+## Implementation Steps
+
+### Step 1: Create Base Classes
+- Create `BaseTokenizer` abstract base class in [src/tokenizer.py](mdc:src/tokenizer.py)
+- Define common interface and utilities
+- Implement shared functionality (vocab management, file I/O)
+
+### Step 2: Refactor WordPieceTokenizer
+- Complete the `train()` method implementation
+- Follow proper WordPiece algorithm with BPE-style merging
+- Add proper error handling and validation
+
+### Step 3: Consolidate BPE Implementation
+- Merge [src/bpe_tokenizer.py](mdc:src/bpe_tokenizer.py) functionality into unified hierarchy
+- Standardize special token usage
+- Ensure consistent vocabulary format
+
+### Step 4: Update Training Scripts
+- Refactor [scripts/train_tokenizer.py](mdc:scripts/train_tokenizer.py) to use unified interface
+- Add proper configuration management
+- Improve error handling and logging
+
+### Step 5: Update Model Integration
+- Ensure [src/model/transformer.py](mdc:src/model/transformer.py) works with unified tokenizer
+- Update [scripts/train_model.py](mdc:scripts/train_model.py) to use new interface
+- Add tokenizer validation in model initialization
+
+## File Structure After Consolidation
+
+```
+src/
+├── tokenizer/
+│   ├── __init__.py
+│   ├── base.py          # BaseTokenizer and common utilities
+│   ├── word.py          # WordTokenizer implementation
+│   ├── subword.py       # SubwordTokenizer base and implementations
+│   └── utils.py         # Tokenizer utilities and helpers
+├── model/
+│   └── ...              # Existing model files
+└── ...
+```
+
+## Migration Guidelines
+
+### For Existing Code
+- Update imports to use new tokenizer hierarchy
+- Replace direct class instantiation with factory methods
+- Update vocabulary loading to use standardized format
+
+### For New Code
+- Use the unified `BaseTokenizer` interface
+- Implement tokenizer-agnostic code where possible
+- Use configuration files for tokenizer settings
+
+## Testing Strategy
+
+### Unit Tests
+- Test each tokenizer implementation independently
+- Verify consistent behavior across implementations
+- Test edge cases and error conditions
+
+### Integration Tests
+- Test tokenizer-model integration
+- Verify training pipeline works with all tokenizers
+- Test vocabulary loading/saving compatibility
+
+### Performance Tests
+- Benchmark tokenization speed
+- Compare memory usage across implementations
+- Test with large datasets

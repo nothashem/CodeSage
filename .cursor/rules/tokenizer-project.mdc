@@ -1,0 +1,94 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Python Tokenizer Project Guide
+
+## Project Overview
+This project implements a simple tokenizer for an LLM (Large Language Model) in Python. The tokenizer is responsible for converting text into tokens that can be processed by the model.
+
+## Project Structure
+The main components of the project are:
+
+- `src/tokenizer.py`: Core tokenizer implementation
+- `src/vocab.py`: Vocabulary management and token mapping
+- `tests/test_tokenizer.py`: Unit tests for the tokenizer
+- `requirements.txt`: Project dependencies
+- `README.md`: Project documentation
+
+## Key Components
+
+### Tokenizer (`src/tokenizer.py`)
+The main tokenizer class that handles:
+- Text preprocessing
+- Tokenization algorithms
+- Special token handling
+- Token to ID conversion
+
+### Vocabulary (`src/vocab.py`)
+Manages the token vocabulary:
+- Token to ID mapping
+- ID to token mapping
+- Special tokens (e.g., [PAD], [UNK], [BOS], [EOS])
+- Vocabulary building and management
+
+## Implementation Guidelines
+
+### Tokenization Rules
+1. The tokenizer should handle:
+   - Word-level tokenization
+   - Subword tokenization (BPE-like)
+   - Special tokens
+   - Unknown tokens
+
+2. Special tokens to implement:
+   - [PAD]: Padding token
+   - [UNK]: Unknown token
+   - [BOS]: Beginning of sequence
+   - [EOS]: End of sequence
+
+### Code Style
+- Follow PEP 8 guidelines
+- Use type hints
+- Include docstrings for all functions and classes
+- Write unit tests for all major functionality
+
+### Performance Considerations
+- Optimize for speed and memory efficiency
+- Use efficient data structures for vocabulary
+- Implement batch processing capabilities
+
+## Usage Examples
+```python
+from src.tokenizer import Tokenizer
+from src.vocab import Vocabulary
+
+# Initialize tokenizer
+tokenizer = Tokenizer(vocab_path="path/to/vocab.json")
+
+# Tokenize text
+tokens = tokenizer.encode("Hello, world!")
+ids = tokenizer.encode_ids("Hello, world!")
+
+# Decode tokens
+text = tokenizer.decode(tokens)
+```
+
+## Testing
+Run tests using pytest:
+```bash
+pytest tests/
+```
+
+## Dependencies
+Key dependencies:
+- `numpy`: For efficient array operations
+- `tqdm`: For progress bars during vocabulary building
+- `pytest`: For testing
+
+## Contributing
+1. Follow the code style guidelines
+2. Write tests for new features
+3. Update documentation as needed
+4. Use meaningful commit messages

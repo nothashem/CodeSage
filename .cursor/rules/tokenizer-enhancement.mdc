@@ -1,0 +1,117 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Tokenizer Enhancement Guide
+
+## Current Implementation
+The current tokenizer implementation in [src/tokenizer.py](mdc:src/tokenizer.py) provides basic word-level tokenization. It needs to be enhanced with more sophisticated subword tokenization.
+
+## Tokenization Approaches
+We have two main options for enhancement:
+
+### Option 1: WordPiece Tokenization (Recommended)
+WordPiece tokenization (used by BERT) offers several advantages:
+- Better handling of out-of-vocabulary words
+- More efficient vocabulary usage
+- Better handling of morphological variations
+- Compatible with transformer architectures
+
+Implementation plan:
+1. Create WordPiece algorithm:
+   ```python
+   class WordPieceTokenizer(Tokenizer):
+       def __init__(self, vocab_size=32000, unknown_token="[UNK]"):
+           super().__init__()
+           self.vocab_size = vocab_size
+           self.unknown_token = unknown_token
+           self.max_chars_per_token = 100
+   ```
+
+2. Implement vocabulary building:
+   - Initialize with character-level tokens
+   - Use maximum likelihood estimation for merges
+   - Implement greedy longest-match-first tokenization
+   - Handle unknown tokens with ## prefix
+
+### Option 2: BPE Tokenization
+BPE (Byte Pair Encoding) is an alternative approach:
+   - More straightforward implementation
+   - Good for general-purpose tokenization
+   - Used by GPT models
+
+## Implementation Decision
+Based on our LLM project requirements, we recommend implementing WordPiece tokenization because:
+1. Better compatibility with transformer architectures
+2. More efficient handling of out-of-vocabulary words
+3. Better suited for real-world text processing
+4. Matches industry standard for transformer models
+
+## Batch Processing
+1. Add batch encoding:
+   ```python
+   def encode_batch(self, texts: List[str], padding=True) -> Dict[str, torch.Tensor]:
+       # Implement batch processing
+       pass
+   ```
+
+2. Implement padding and truncation
+3. Add attention masks
+4. Optimize for GPU processing
+
+## Text Preprocessing
+1. Add preprocessing pipeline:
+   - Text normalization
+   - Case handling
+   - Special character handling
+   - Whitespace normalization
+
+2. Create preprocessing config:
+   ```python
+   @dataclass
+   class PreprocessingConfig:
+       lowercase: bool = True
+       normalize_whitespace: bool = True
+       remove_special_chars: bool = False
+       max_length: int = 512
+   ```
+
+## Testing Strategy
+1. Unit tests for:
+   - BPE algorithm
+   - Vocabulary building
+   - Batch processing
+   - Preprocessing pipeline
+
+2. Integration tests for:
+   - End-to-end tokenization
+   - Vocabulary management
+   - Special token handling
+
+## Implementation Order
+1. [ ] Implement WordPiece algorithm
+2. [ ] Add vocabulary builder with maximum likelihood estimation
+3. [ ] Implement preprocessing pipeline
+4. [ ] Add batch processing
+5. [ ] Write comprehensive tests
+6. [ ] Add documentation
+7. [ ] Performance optimization
+
+## Performance Targets
+- Tokenization speed: < 1ms per 100 tokens
+- Memory usage: < 1GB for 32k vocabulary
+- Batch processing: Support up to 128 sequences
+- GPU acceleration support
+
+## Reference Implementations
+- HuggingFace Tokenizers (BERT WordPiece)
+- Google's BERT Tokenizer
+- SentencePiece
+- GPT-2 Tokenizer (BPE)
+
+## Dependencies to Add
+- regex
+- tqdm (for progress bars)
+- numpy (for efficient operations)
+- pytest (for testing)

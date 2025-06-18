@@ -1,0 +1,135 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Model Architecture Guide
+
+## Overview
+This guide outlines the implementation of our transformer-based language model architecture.
+
+## Core Components
+
+### 1. Model Configuration
+```python
+@dataclass
+class ModelConfig:
+    vocab_size: int
+    d_model: int = 512
+    n_heads: int = 8
+    n_layers: int = 6
+    d_ff: int = 2048
+    dropout: float = 0.1
+    max_length: int = 512
+    activation: str = "gelu"
+```
+
+### 2. Architecture Components
+1. Embedding Layer:
+   - Token embeddings
+   - Positional embeddings
+   - Layer normalization
+
+2. Transformer Blocks:
+   - Multi-head attention
+   - Feed-forward network
+   - Residual connections
+   - Layer normalization
+
+3. Output Layer:
+   - Linear projection
+   - Softmax/LogSoftmax
+
+## Implementation Plan
+
+### Phase 1: Core Components
+1. [ ] Implement embedding layer
+2. [ ] Create attention mechanism
+3. [ ] Build transformer block
+4. [ ] Implement output layer
+5. [ ] Add model configuration
+
+### Phase 2: Model Integration
+1. [ ] Combine components into full model
+2. [ ] Add initialization methods
+3. [ ] Implement forward pass
+4. [ ] Add model saving/loading
+5. [ ] Create model factory
+
+### Phase 3: Optimization
+1. [ ] Add gradient checkpointing
+2. [ ] Implement mixed precision
+3. [ ] Add model parallelism
+4. [ ] Optimize memory usage
+5. [ ] Add inference optimizations
+
+## Model Structure
+```
+TransformerModel
+├── EmbeddingLayer
+│   ├── TokenEmbedding
+│   └── PositionalEmbedding
+├── TransformerBlocks
+│   ├── MultiHeadAttention
+│   ├── FeedForward
+│   └── LayerNorm
+└── OutputLayer
+    └── LinearProjection
+```
+
+## Training Considerations
+1. Model Initialization:
+   - Xavier/Glorot initialization
+   - Layer-specific initialization
+   - Warmup period
+
+2. Optimization:
+   - AdamW optimizer
+   - Learning rate scheduling
+   - Gradient clipping
+   - Weight decay
+
+3. Regularization:
+   - Dropout
+   - Layer normalization
+   - Attention dropout
+   - Label smoothing
+
+## Performance Targets
+- Training speed: > 1000 tokens/second
+- Memory efficiency: < 16GB for 6-layer model
+- Inference latency: < 50ms for 512 tokens
+- Model size: < 500MB for full precision
+
+## Dependencies
+- PyTorch
+- NumPy
+- tqdm
+- wandb (for experiment tracking)
+- transformers (for reference)
+
+## Testing Strategy
+1. Unit tests for:
+   - Individual components
+   - Forward/backward passes
+   - Initialization
+   - Saving/loading
+
+2. Integration tests for:
+   - End-to-end training
+   - Inference
+   - Model parallelism
+   - Mixed precision
+
+## Reference Implementations
+- GPT-2
+- BERT
+- T5
+- HuggingFace Transformers
+
+## Next Steps
+1. Set up model directory structure
+2. Implement basic components
+3. Add tests
+4. Create training pipeline
+5. Add optimization features

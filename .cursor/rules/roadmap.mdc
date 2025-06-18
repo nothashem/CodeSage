@@ -1,0 +1,58 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# LLM Project Roadmap
+
+## Phase 1: Tokenizer Enhancement
+- [ ] Implement BPE (Byte Pair Encoding) tokenization
+- [ ] Add batch processing capabilities
+- [ ] Implement text preprocessing pipeline
+- [ ] Add support for multiple tokenization strategies
+- [ ] Create vocabulary builder
+- [ ] Add unit tests for new tokenizer features
+
+## Phase 2: Model Architecture
+- [ ] Design and implement transformer architecture
+- [ ] Create embedding layer
+- [ ] Implement attention mechanisms
+- [ ] Add positional encoding
+- [ ] Build transformer blocks
+- [ ] Implement output layer
+- [ ] Add model configuration system
+
+## Phase 3: Training Infrastructure
+- [ ] Create dataset management system
+- [ ] Implement data loading and preprocessing
+- [ ] Build training loop
+- [ ] Add validation pipeline
+- [ ] Implement checkpointing
+- [ ] Create logging system
+- [ ] Add metrics tracking
+- [ ] Implement distributed training support
+
+## Phase 4: Evaluation & Deployment
+- [ ] Create evaluation pipeline
+- [ ] Implement inference system
+- [ ] Add model export functionality
+- [ ] Create deployment scripts
+- [ ] Add model serving capabilities
+- [ ] Implement monitoring system
+
+## Current Focus
+We are currently in Phase 1, focusing on enhancing the tokenizer implementation in [src/tokenizer.py](mdc:src/tokenizer.py).
+
+## Next Steps
+1. Implement BPE tokenization
+2. Add batch processing
+3. Create vocabulary builder
+4. Add comprehensive testing
+
+## Dependencies
+- Python 3.8+
+- PyTorch
+- NumPy
+- tqdm
+- pytest
+- transformers (for reference implementation)
