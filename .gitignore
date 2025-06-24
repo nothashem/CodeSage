@@ -1,16 +1,9 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
-env/
-venv/
-ENV/
 build/
 develop-eggs/
 dist/
@@ -22,66 +15,73 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# PyInstaller
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
+# PyTorch
+*.pth
+*.pt
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# pyenv
-.python-version
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# Pyre type checker
-.pyre/
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Data, checkpoints, and large files
-checkpoints/
-data/
+# Logs
+*.log
+logs/
+
+# Data files (keep structure but ignore large files)
+data/processed/
+*.jsonl
+*.jsonl.gz
+*.txt.gz
+
+# Temporary files
+*.tmp
+*.temp
 decompressed.txt
 compressed.json
-trained_tokenizer.json
 improved_tokenizer.json
-my_tokenizer.json
-new_tokenizer.json
 
-# Docker
-*.dockerfile
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
-# MacOS
-.DS_Store
+# Documentation
+docs/_build/
 
-# VSCode
-.vscode/
+# Ignore all JSON files
+*.json
+**/*.json
 
-# Cursor rules
-.cursor/rules/
-
-# Other
-*.log 
+# Ignore description files
+DESCRIPTION.md
+**/DESCRIPTION.md 
