@@ -21,9 +21,11 @@ wheels/
 *.egg
 MANIFEST
 
-# PyTorch
+# PyTorch (but allow checkpoints)
 *.pth
 *.pt
+!checkpoints/*.pth
+!checkpoints/*.pt
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -78,9 +80,11 @@ htmlcov/
 # Documentation
 docs/_build/
 
-# Ignore all JSON files
+# Ignore all JSON files (but allow tokenizer files)
 *.json
 **/*.json
+!tokenizer.json
+!**/tokenizer.json
 
 # Ignore description files
 DESCRIPTION.md
