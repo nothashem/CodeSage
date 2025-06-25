@@ -10,17 +10,6 @@ A lightweight Seq2Seq Transformer model designed specifically for code understan
 - **PyTorch Implementation**: Modern, maintainable codebase
 - **Docker Support**: Ready for containerized deployment
 
-## 📋 Table of Contents
-
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Usage](#usage)
-- [Training](#training)
-- [Model Architecture](#model-architecture)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🛠️ Installation
 
 ### Prerequisites
